@@ -1,6 +1,7 @@
 import brainwave from "../assets/brainwave.svg"; // Adjust the path as necessary
 import { navigation } from "../constants";
 import { useLocation } from "react-router-dom";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
@@ -13,12 +14,17 @@ const Header = () => {
   const toggleNavigation = () => {
     if (openNavigation) {
       setOPenNavigation(false);
+      enablePageScroll();
     } else {
       setOPenNavigation(true);
+      disablePageScroll();
     }
   };
 
   const handleClick = () => {
+    if (!openNavigation) return;
+
+    enablePageScroll();
     setOPenNavigation(false);
   };
 
@@ -42,6 +48,7 @@ const Header = () => {
               <a
                 key={item.id}
                 href={item.url}
+                onClick={handleClick}
                 className={`block relative font-code text-2xl uppercase tet-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semiblod ${
